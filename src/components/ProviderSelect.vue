@@ -1,6 +1,6 @@
 <template>
     <div class="ProviderSelect">
-        <SelectRoot>
+        <SelectRoot v-model="currentModel">
             <SelectTrigger class="flex w-full items-center justify-between 
             rounded-md py-1.5 px-3 shadow-sm border-gray-300 border outline-none data-[placeholder]:text-gray-500">
                 <SelectValue placeholder="请选择模型" />
@@ -17,7 +17,7 @@
                             <SelectGroup>
                                 <SelectItem
                                     class="outline-none rounded flex items-center h-7 px-6 relative text-blue-400 cursor-pointer data-[highlighted]:bg-blue-700 data-[highlighted]:text-white"
-                                    v-for="(model, index) in provider.models" :key="index" :value="model">
+                                    v-for="(model, index) in provider.models" :key="index" :value="`${provider.id}/${model}`">
                                     <SelectItemIndicator class="absolute left-2 w-6">
                                         <Icon icon="mdi:check" />
                                     </SelectItemIndicator>
@@ -50,8 +50,10 @@ import {
     SelectValue,
     SelectViewport,
 } from 'radix-vue'
+import { provide } from 'vue';
 
 defineProps<{ items?: ProviderProps[] }>();
+const currentModel = defineModel<string>()
 </script>
 
 <style scoped lang="scss">

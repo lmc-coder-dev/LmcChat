@@ -23,19 +23,33 @@
             </div>
         </div>
         <div class="h-full flex-1 flex items-center">
-            <div class="w-[80%] mx-auto">
-                <ProviderSelect :items="modelItems"/>
+            <div class="w-[80%] mx-auto h-full">
+                <div class="flex items-center h-[85%]">
+                   <ProviderSelect :items="modelItems" v-model="selectedModel"/>
+                </div>
+                <div class="flex items-center h-[15%]">
+                   <MessageInput v-model="inputText" @create="handleCreate" />
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { ConversationProps, ProviderProps} from './types';
 import { Icon } from "@iconify/vue";
 import ConversationList from './components/ConversationList.vue';
 import ProviderSelect from './components/ProviderSelect.vue';
+import MessageInput from './components/MessageInput.vue';
 
+const selectedModel = ref()
+const inputText = ref('');
+function handleCreate() {
+  if (!inputText.value.trim()) return;   // 空内容不发送
+  console.log('发送：', inputText.value);
+  inputText.value = '';                  // 发送后清空，放在父组件处理更干净
+}
 const modelItems: ProviderProps[] = [
     {
         id: 1,
