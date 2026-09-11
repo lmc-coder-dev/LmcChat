@@ -6,49 +6,45 @@
             </div>
             <div class="h-[10%] grid grid-cols-2 gap-2 p-2">
                 <!-- 蓝色实心按钮：新建聊天 -->
-                <button class="shadow-sm inline-flex items-center justify-center
+                <RouterLink to="/">
+                    <button class="shadow-sm inline-flex items-center justify-center
     bg-blue-700   text-white   hover:bg-blue-700/90 border   border-blue-700
     h-[32px] py-[8px] px-[15px] text-sm rounded-[4px]">
-                    <Icon icon="akar-icons:chat-bubble" class="mr-2"/>
-                    新建聊天
-                </button>
+                        <Icon icon="akar-icons:chat-bubble" class="mr-2" />
+                        新建聊天
+                    </button>
+                </RouterLink>
 
-                <!-- 蓝色描边按钮：应用设置 -->
-                <button class="shadow-sm inline-flex items-center justify-center
+                <RouterLink to="/settings">
+                    <!-- 蓝色描边按钮：应用设置 -->
+                    <button class="shadow-sm inline-flex items-center justify-center
     bg-blue-50   text-blue-700   hover:bg-blue-700 border   border-blue-700   hover:text-white
     h-[32px] py-[8px] px-[15px] text-sm rounded-[4px]">
-                   <Icon icon="akar-icons:gear" class="mr-2"/>
-                    应用设置
-                </button>
+                        <Icon icon="akar-icons:gear" class="mr-2" />
+                        应用设置
+                    </button>
+                </RouterLink>
+
             </div>
         </div>
-        <div class="h-full flex-1 flex items-center">
-            <div class="w-[80%] mx-auto h-full">
-                <div class="flex items-center h-[85%]">
-                   <ProviderSelect :items="modelItems" v-model="selectedModel"/>
-                </div>
-                <div class="flex items-center h-[15%]">
-                   <MessageInput v-model="inputText" @create="handleCreate" />
-                </div>
-            </div>
+        <div class="h-full flex-1">
+            <RouterView />
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { ConversationProps, ProviderProps} from './types';
+import { ConversationProps, ProviderProps } from './types';
 import { Icon } from "@iconify/vue";
 import ConversationList from './components/ConversationList.vue';
-import ProviderSelect from './components/ProviderSelect.vue';
-import MessageInput from './components/MessageInput.vue';
 
 const selectedModel = ref()
 const inputText = ref('');
 function handleCreate() {
-  if (!inputText.value.trim()) return;   // 空内容不发送
-  console.log('发送：', inputText.value);
-  inputText.value = '';                  // 发送后清空，放在父组件处理更干净
+    if (!inputText.value.trim()) return;   // 空内容不发送
+    console.log('发送：', inputText.value);
+    inputText.value = '';                  // 发送后清空，放在父组件处理更干净
 }
 const modelItems: ProviderProps[] = [
     {

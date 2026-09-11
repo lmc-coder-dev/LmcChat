@@ -27,8 +27,20 @@
  */
 
 import './tailwind.css';
+import { createRouter,createMemoryHistory } from 'vue-router';
 import { createApp } from 'vue';
 import App from './App.vue';
 
-
-createApp(App).mount('#app');
+const routes = [
+    { path: '/', component: () => import('./views/Home.vue')},
+    { path: '/conversation', component: () => import('./views/Conversation.vue')},
+    { path: '/settings', component: () => import('./views/Settings.vue')}
+]
+const router = createRouter({
+    history: createMemoryHistory(),
+    routes
+})
+ 
+const app = createApp(App)
+app.use(router)
+app.mount('#app');

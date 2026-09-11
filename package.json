@@ -47,7 +47,8 @@
     "electron-squirrel-startup": "^1.0.1",
     "nodemon": "^3.1.14",
     "radix-vue": "^1.9.17",
-    "vue": "^3.5.42"
+    "vue": "^3.5.42",
+    "vue-router": "^4.6.4"
   },
   "allowScripts": {
     "electron-winstaller@5.4.4": true,
