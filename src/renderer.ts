@@ -30,6 +30,7 @@ import './tailwind.css';
 import { createRouter,createMemoryHistory } from 'vue-router';
 import { createApp } from 'vue';
 import App from './App.vue';
+import './assets/common.scss'
 
 const routes = [
     { path: '/', component: () => import('./views/Home.vue')},
