@@ -33,7 +33,7 @@ import App from './App.vue';
 
 const routes = [
     { path: '/', component: () => import('./views/Home.vue')},
-    { path: '/conversation', component: () => import('./views/Conversation.vue')},
+    { path: '/conversation/:id', component: () => import('./views/Conversation.vue')},
     { path: '/settings', component: () => import('./views/Settings.vue')}
 ]
 const router = createRouter({
