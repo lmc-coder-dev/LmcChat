@@ -15,7 +15,7 @@
 import { ref } from 'vue';
 import ProviderSelect from '../components/ProviderSelect.vue';
 import MessageInput from '../components/MessageInput.vue';
-import {  ProviderProps} from '../types';
+import {  ProviderProps } from '../types';
 
 const selectedModel = ref()
 const inputText = ref('');

@@ -34,7 +34,7 @@
 </template>
 
 <script setup lang="ts">
-import { ConversationProps, ProviderProps } from './types';
+import { ConversationProps } from './types';
 import { Icon } from "@iconify/vue";
 import ConversationList from './components/ConversationList.vue';
 
@@ -184,7 +184,6 @@ const items: ConversationProps[] = [
         providerId: 4,
     },
 ];
-
 
 console.log("👋 This message is being logged by 'App.vue',included via Vite");
 </script>

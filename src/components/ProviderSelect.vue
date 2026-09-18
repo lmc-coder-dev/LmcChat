@@ -50,7 +50,6 @@ import {
     SelectValue,
     SelectViewport,
 } from 'radix-vue'
-import { provide } from 'vue';
 
 defineProps<{ items?: ProviderProps[] }>();
 const currentModel = defineModel<string>()
