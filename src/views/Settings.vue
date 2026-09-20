@@ -1,6 +1,6 @@
 <template>
   <div class="Settings">
-       <Button color="blue">Hello</Button>
+       <Button color="purple" plain loading>Hello</Button>
   </div>
 </template>
 

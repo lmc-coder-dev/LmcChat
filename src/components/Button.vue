@@ -1,7 +1,13 @@
 <template>
     <div class="Button">
         <button class="lmc-button 
-        shadow-sm inline-flex items-center justify-center" :class="[colorClasses]">
+        shadow-sm inline-flex items-center justify-center
+        disabled:opacity-50 disabled:pointer-events-none
+        "
+         :class="[colorClasses,sizeClasses]"
+         :disabled="disabled || loading"
+         >
+          <Icon :icon="iconWithLoading" class="mr-2" v-if="iconWithLoading"></Icon>
             <slot></slot>
         </button>
     </div>
@@ -9,6 +15,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue';
+import { Icon } from '@iconify/vue';
 
 export type ButtonColor = 'blue' | 'purple' | 'green'
 export type ButtonSize = 'large' | 'small'
@@ -19,6 +26,7 @@ export interface ButtonProps {
     plain?: boolean;
     disabled?: boolean;
     loading?: boolean;
+    iconName?:string;
 }
 
 defineOptions({
@@ -27,6 +35,14 @@ defineOptions({
 
 const props = withDefaults(defineProps<ButtonProps>(), {
     color: 'blue',
+})
+
+const iconWithLoading = computed(()=>{
+    if (props.loading) {
+      return 'svg-spinners:ring-resize'
+    }else {
+        return props.iconName
+    }
 })
 
 const colorVariants = ref<Record<ButtonColor, any>>(
@@ -54,6 +70,17 @@ const colorClasses = computed(() => {
     }
 })
 
+const sizeClasses = computed(() => {
+  if (!props.size) {
+    return 'h-[32px] py-[8px] px-[15px] text-sm rounded-[4px]'
+  } else {
+    if (props.size === 'large') {
+      return 'h-[40px] py-[12px] px-[19px] rounded-[4px] text-base'
+    } else {
+      return 'h-[24px] py-[11px] px-[5px] rounded-[3px] text-xs'
+    }
+  }
+})
 </script>
 
 <style scoped lang="scss">
