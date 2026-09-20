@@ -1,11 +1,11 @@
 <template>
   <div class="Settings">
-       This is Settings components
+       <Button color="blue">Hello</Button>
   </div>
 </template>
 
 <script setup lang="ts">
-
+import Button from '../components/Button.vue';
 </script>
 
 <style scoped lang="scss">
