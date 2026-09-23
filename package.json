@@ -44,8 +44,10 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
+    "dotenv": "^18.0.2",
     "electron-squirrel-startup": "^1.0.1",
     "nodemon": "^3.1.14",
+    "openai": "^7.21.0",
     "radix-vue": "^1.9.17",
     "vue": "^3.5.42",
     "vue-router": "^4.6.4"
