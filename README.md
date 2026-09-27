@@ -1,1 +1,1 @@
-# LmcChat-AI对话pc桌面端
+# LmcChat-AI智能对话pc桌面端
