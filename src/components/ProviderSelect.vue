@@ -52,7 +52,7 @@ import {
 } from 'radix-vue'
 
 defineProps<{ items?: ProviderProps[] }>();
-const currentModel = defineModel<string>()
+const currentModel = defineModel<string>('currentModel')
 </script>
 
 <style scoped lang="scss">

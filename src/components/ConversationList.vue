@@ -5,7 +5,7 @@
              <div @click="goToMessageList(item.id)">
                 <div class="flex justify-between items-center text-sm leading-5 text-gray-500">
                     <span>{{ item.selectedModel }}</span>
-                    <span>{{ item.updatedAt }}</span>
+                    <span>{{ dayjs(item.updatedAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
                 </div>
                 <h2 class="font-semibold loading-6 text-gray-900 truncate">{{ item.title }}</h2>
              </div>
@@ -15,6 +15,7 @@
 
 <script setup lang="ts">
 import { ConversationProps } from '../types';
+import dayjs from 'dayjs';
 defineProps<{ items: ConversationProps[] }>();
 import { useRouter } from 'vue-router';
 

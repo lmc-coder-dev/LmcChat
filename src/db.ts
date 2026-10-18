@@ -64,10 +64,10 @@ const modelItems: ProviderProps[] = [
     },
 ];
 
-db.version(1).stores({
+db.version(2).stores({
     providers: '++id,name',
     conversations: '++id,providerId',
-    messages: '++id,conversionId',
+    messages: '++id,conversationId',
 })
 
 export const initProviders = async () => {

@@ -43,14 +43,18 @@ const providers = ref<ProviderProps[]>([])
 
 const createConversation = async (question: string) => {
     console.log('用户输入的问题是：', question);
+    if (!currentProvider.value) {
+        console.warn('请先选择模型')
+        return
+    }
     const { providerId, selectedModel } = modelInfo.value;
     const currentDate = new Date().toISOString()
     const conversationId = await db.conversations.add({
-      title: question,
-      selectedModel,
-      providerId,
-      createdAt: currentDate,
-      updatedAt: currentDate,
+        title: question,
+        selectedModel,
+        providerId,
+        createdAt: currentDate,
+        updatedAt: currentDate,
     })
     const newMessageId = await db.messages.add({
         content: question,
