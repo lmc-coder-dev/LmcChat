@@ -31,32 +31,23 @@ const createWindow = async () => {
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
-  const client = new OpenAI({
-    apiKey:process.env['BAIDU_API_KEY'],
-    baseURL: process.env['BAIDU_BASE_URL'],
-  });
-  const imageBuffer = await fs.readFile('src/assets/image.png')
-  const base64Image = imageBuffer.toString('base64')
+
+  // const client = new OpenAI({
+  //   apiKey:process.env['BAIDU_API_KEY'],
+  //   baseURL: process.env['BAIDU_BASE_URL'],
+  // });
+  // const imageBuffer = await fs.readFile('src/assets/image.png')
+  // const base64Image = imageBuffer.toString('base64')
   // console.log('base64:',base64Image)
-  const stream = await client.chat.completions.create({
-    messages: [{ role: 'user', content: [
-                {
-                    "type": "text",
-                    "text": "这张图说了什么?",
-                },
-                {
-                    "type": "image_url",
-                    "image_url": {
-                        "url": `data:image/png;base64,${base64Image}`
-                     },
-                },
-    ] }], 
-    model: 'deepseek-v4.1-flash',
-    stream: true,
-  })
-  for await (const chunk of stream) {
-    process.stdout.write(chunk.choices[0]?.delta?.content || '');
-  }
+  // const stream = await client.chat.completions.create({
+  //   messages: [{ role: 'user', content: "你好" }], 
+  //   model: 'deepseek-v4.1-flash',
+  //   stream: true,
+  // })
+  // for await (const chunk of stream) {
+  //   process.stdout.write(chunk.choices[0]?.delta?.content || '');
+  // }
+  
 };
 
 // This method will be called when Electron has finished

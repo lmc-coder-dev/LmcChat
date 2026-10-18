@@ -2,7 +2,7 @@
     <div class="flex items-center justify-between h-screen">
         <div class="w-75 bg-gray-200 h-full border-r border-gray-300">
             <div class="overflow-y-auto h-[90%]">
-                <ConversationList :items="items" />
+                <ConversationList :items="conversations" />
             </div>
             <div class="h-[10%] grid grid-cols-2 gap-2 p-2">
                 <!-- 蓝色实心按钮：新建聊天 -->
@@ -37,155 +37,16 @@
 import { ConversationProps } from './types';
 import { Icon } from "@iconify/vue";
 import ConversationList from './components/ConversationList.vue';
+import { onMounted, ref } from 'vue';
+import { db ,initProviders} from './db';
 
-const items: ConversationProps[] = [
-    {
-        id: 1,
-        title: '什么是光合作用',
-        selectedModel: 'GPT-3.5-Turbo',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 1,
-    },
-    {
-        id: 2,
-        title: '帮我写一段 Python 爬虫代码',
-        selectedModel: 'GPT-4o',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 2,
-    },
-    {
-        id: 3,
-        title: '解释一下 JS 闭包',
-        selectedModel: 'DeepSeek-V3',
-        createdAt: '2026-09-01 ',
-        updatedAt: '2026-09-01',
-        providerId: 3,
-    },
-    {
-        id: 4,
-        title: '推荐几本前端入门书籍',
-        selectedModel: 'GPT-3.5-Turbo',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 1,
-    },
-    {
-        id: 5,
-        title: '什么是闭包和原型链的区别',
-        selectedModel: 'GPT-4o',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 2,
-    },
-    {
-        id: 6,
-        title: '帮我规划一个学习路线',
-        selectedModel: 'Claude-3.5',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 4,
-    },
-    {
-        id: 7,
-        title: '什么是光合作用',
-        selectedModel: 'GPT-3.5-Turbo',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 1,
-    },
-    {
-        id: 8,
-        title: '帮我写一段 Python 爬虫代码',
-        selectedModel: 'GPT-4o',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 2,
-    },
-    {
-        id: 9,
-        title: '解释一下 JS 闭包',
-        selectedModel: 'DeepSeek-V3',
-        createdAt: '2026-09-01 ',
-        updatedAt: '2026-09-01',
-        providerId: 3,
-    },
-    {
-        id: 10,
-        title: '推荐几本前端入门书籍',
-        selectedModel: 'GPT-3.5-Turbo',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 1,
-    },
-    {
-        id: 11,
-        title: '什么是闭包和原型链的区别',
-        selectedModel: 'GPT-4o',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 2,
-    },
-    {
-        id: 12,
-        title: '帮我规划一个学习路线',
-        selectedModel: 'Claude-3.5',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 4,
-    },
-    {
-        id: 13,
-        title: '什么是光合作用',
-        selectedModel: 'GPT-3.5-Turbo',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 1,
-    },
-    {
-        id: 14,
-        title: '帮我写一段 Python 爬虫代码',
-        selectedModel: 'GPT-4o',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 2,
-    },
-    {
-        id: 15,
-        title: '解释一下 JS 闭包',
-        selectedModel: 'DeepSeek-V3',
-        createdAt: '2026-09-01 ',
-        updatedAt: '2026-09-01',
-        providerId: 3,
-    },
-    {
-        id: 16,
-        title: '推荐几本前端入门书籍',
-        selectedModel: 'GPT-3.5-Turbo',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 1,
-    },
-    {
-        id: 17,
-        title: '什么是闭包和原型链的区别',
-        selectedModel: 'GPT-4o',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 2,
-    },
-    {
-        id: 18,
-        title: '帮我规划一个学习路线',
-        selectedModel: 'Claude-3.5',
-        createdAt: '2026-09-01',
-        updatedAt: '2026-09-01',
-        providerId: 4,
-    },
-];
+const conversations = ref<ConversationProps[]>([])
 
-console.log("👋 This message is being logged by 'App.vue',included via Vite");
+onMounted( async ()=>{
+  await initProviders()
+  conversations.value = await db.conversations.toArray()
+  console.log("👋 This message is being logged by 'App.vue',included via Vite");
+})
 </script>
 
 <style scoped></style>
