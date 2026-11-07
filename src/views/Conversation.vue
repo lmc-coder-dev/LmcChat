@@ -4,7 +4,8 @@
             <h3 class="font-semibold text-gray-900">
                 {{ filteredConversationMessage?.title ?? '加载中...' }}
             </h3>
-            <span class="text-sm text-gray-500">{{ dayjs(filteredConversationMessage?.updatedAt).format('YYYY-MM-DD HH:mm:ss')}}</span>
+            <span class="text-sm text-gray-500">{{
+                dayjs(filteredConversationMessage?.updatedAt).format('YYYY-MM-DD HH:mm:ss') }}</span>
         </div>
         <div class="pt-2 w-[80%] mx-auto h-[75%] overflow-y-auto">
             <MessageList :messages="filteredMessages" />
@@ -28,36 +29,51 @@ const route = useRoute()
 
 const ConversationId = computed(() => Number(route.params.id))
 
-const initMessageId = computed(()=>Number(route.query.init))
+const initMessageId = computed(() => Number(route.query.init))
+
+const lastQuestionMessage = ref<string>()
 
 const creatingInitialMessage = async () => {
     const createData: Omit<MessageProps, 'id'> = {
         content: "",
-        conversationId:ConversationId.value,
+        conversationId: ConversationId.value,
         type: "answer",
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
         status: "loading"
     }
     const newMessageId = await db.messages.add(createData)
-    filteredMessages.value.push({...createData,id:newMessageId})
+    filteredMessages.value.push({ ...createData, id: newMessageId })
+    if (filteredConversationMessage.value) {
+        const provider = await db.providers.where({ id: filteredConversationMessage.value.providerId }).first()
+        if (provider) {
+           await window.electronAPI.startChat({
+            messageId: newMessageId,
+            prociderName: provider.name,
+            selectedModel: filteredConversationMessage.value.selectedModel,
+            content: lastQuestionMessage.value
+           })
+        }
+    }
 }
 
 const filteredMessages = ref<MessageProps[]>([])
 
 const filteredConversationMessage = ref<ConversationProps>()
 
-watch(()=>ConversationId.value,async ()=>{
-  filteredConversationMessage.value = await db.conversations.where({id:ConversationId.value}).first()
-  filteredMessages.value = await db.messages.where({conversationId:ConversationId.value}).toArray()
+watch(() => ConversationId.value, async () => {
+    filteredConversationMessage.value = await db.conversations.where({ id: ConversationId.value }).first()
+    filteredMessages.value = await db.messages.where({ conversationId: ConversationId.value }).toArray()
 })
 
-onMounted( async ()=>{
-   filteredConversationMessage.value = await db.conversations.where({id:ConversationId.value}).first()
-   filteredMessages.value = await db.messages.where({conversationId:ConversationId.value}).toArray()
-   if(initMessageId.value){
-    creatingInitialMessage()
-  }
+onMounted(async () => {
+    filteredConversationMessage.value = await db.conversations.where({ id: ConversationId.value }).first()
+    filteredMessages.value = await db.messages.where({ conversationId: ConversationId.value }).toArray()
+    if (initMessageId.value) {
+        const lastMessage = await db.messages.where({ conversationId: ConversationId.value }).last()
+        lastQuestionMessage.value = lastMessage?.content || ''
+        creatingInitialMessage()
+    }
 })
 </script>
 
